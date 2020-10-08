@@ -1,6 +1,6 @@
 package com.sAdamingo.course.lesson_1.homework;
 
-public class zadanie_2 {
+public class Task2 {
     public static void main(String[] args) {
         boolean isAdding = false;
         int a = 666;
