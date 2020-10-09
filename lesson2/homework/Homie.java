@@ -4,7 +4,7 @@ public class Homie {
     public static void main(String[] args) {
         for (int i = 1; i <= 150; i++) {
             if (i % 3 != 0) {
-                String output = Integer.toString(i) + " ";
+                String output = i + " ";
                 if (i % 4 == 0) {
                     output = output + "Zio";
                 }
