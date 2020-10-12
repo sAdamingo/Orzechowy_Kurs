@@ -4,16 +4,14 @@ public class Homie {
     public static void main(String[] args) {
         for (int i = 1; i <= 150; i++) {
             if (i % 3 != 0) {
-                String output = i + " ";
+                System.out.print("\n" + i + " ");
                 if (i % 4 == 0) {
-                    output = output + "Zio";
+                    System.out.print("Zio");
                 }
                 if (i % 5 == 0) {
-                    output = output + "mek";
+                    System.out.print("mek");
                 }
-                System.out.println(output);
             }
         }
     }
 }
-
