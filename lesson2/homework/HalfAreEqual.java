@@ -18,5 +18,4 @@ public class HalfAreEqual {
             System.out.println("Half is equal!");
         }
     }
-
 }
