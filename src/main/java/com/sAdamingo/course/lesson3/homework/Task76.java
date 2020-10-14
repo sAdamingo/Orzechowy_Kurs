@@ -32,7 +32,6 @@ public class Task76 {
     }
 
     private static int getWhichFibonacciNumber() {
-        int whichFibonacciNumber = 25;
-        return whichFibonacciNumber;
+        return 25;
     }
 }
