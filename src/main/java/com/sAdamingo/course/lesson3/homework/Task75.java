@@ -4,13 +4,20 @@ public class Task75 {
     public static void main(String[] args) {
         String s1 = getFirstString();
         String s2 = getSecondString();
-        boolean areEqualOdd = getTrueBoolean();
-        boolean areEqualEven = getTrueBoolean();
-        isHalfEven(s1, s2, areEqualOdd, areEqualEven);
+        printIfAreEqual(s1, s2);
     }
 
-    private static void isHalfEven(String s1, String s2, boolean areEqualOdd, boolean areEqualEven) {
-        for (int i = 1; i < (s1.length() < s2.length() ? s1.length() : s2.length()); i = i + 2) {
+    private static void printIfAreEqual(String s1, String s2) {
+        if (isHalfEven(s1, s2)) {
+            System.out.println("Half are even!");
+        }
+    }
+
+    private static boolean isHalfEven(String s1, String s2) {
+        boolean areEqualOdd = true;
+        boolean areEqualEven = true;
+
+        for (int i = 1; i < (Math.min(s1.length(), s2.length())); i = i + 2) {
             boolean areEqualEven2 = areEqualOdd;
             if (s1.charAt(i - 1) != s2.charAt(i - 1) && areEqualEven2) {
                 areEqualEven2 = false;
@@ -22,9 +29,8 @@ public class Task75 {
             }
             areEqualEven = areEqualEven1;
         }
-        if (areEqualEven || areEqualOdd) {
-            System.out.println("Half is equal!");
-        }
+        return areEqualEven || areEqualOdd;
+
     }
 
     private static String getFirstString() {
@@ -33,10 +39,6 @@ public class Task75 {
 
     private static String getSecondString() {
         return "KxOwBqOdJg";
-    }
-
-    private static boolean getTrueBoolean() {
-        return true;
     }
 
 }
