@@ -18,19 +18,21 @@ public class Task75 {
         boolean areEqualEven = true;
 
         for (int i = 1; i < (Math.min(s1.length(), s2.length())); i = i + 2) {
-            boolean areEqualEven2 = areEqualOdd;
-            if (s1.charAt(i - 1) != s2.charAt(i - 1) && areEqualEven2) {
-                areEqualEven2 = false;
-            }
+            boolean areEqualEven2 = isEqual(s1, s2, areEqualOdd, i - 1);
             areEqualOdd = areEqualEven2;
-            boolean areEqualEven1 = areEqualEven;
-            if (s1.charAt(i) != s2.charAt(i) && areEqualEven1) {
-                areEqualEven1 = false;
-            }
+            boolean areEqualEven1 = isEqual(s1, s2, areEqualEven, i);
             areEqualEven = areEqualEven1;
         }
         return areEqualEven || areEqualOdd;
 
+    }
+
+    private static boolean isEqual(String s1, String s2, boolean areEqualEven, int i) {
+        boolean areEqualEven1 = areEqualEven;
+        if (s1.charAt(i) != s2.charAt(i) && areEqualEven1) {
+            areEqualEven1 = false;
+        }
+        return areEqualEven1;
     }
 
     private static String getFirstString() {
