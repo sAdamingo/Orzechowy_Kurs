@@ -16,15 +16,11 @@ public class Task75 {
     private static boolean isHalfEven(String s1, String s2) {
         boolean areEqualOdd = true;
         boolean areEqualEven = true;
-
         for (int i = 1; i < (Math.min(s1.length(), s2.length())); i = i + 2) {
-            boolean areEqualEven2 = isEqual(s1, s2, areEqualOdd, i - 1);
-            areEqualOdd = areEqualEven2;
-            boolean areEqualEven1 = isEqual(s1, s2, areEqualEven, i);
-            areEqualEven = areEqualEven1;
+            areEqualOdd = isEqual(s1, s2, areEqualOdd, i - 1);
+            areEqualEven = isEqual(s1, s2, areEqualEven, i);
         }
         return areEqualEven || areEqualOdd;
-
     }
 
     private static boolean isEqual(String s1, String s2, boolean areEqualEven, int i) {

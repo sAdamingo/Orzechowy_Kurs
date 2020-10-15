@@ -11,11 +11,11 @@ public class Task72 {
         if (isAdding()) {
             add(a, b);
         } else {
-            substracct(a, b);
+            substract(a, b);
         }
     }
 
-    private static void substracct(int a, int b) {
+    private static void substract(int a, int b) {
         int result = a - b;
         System.out.println(a + " minus " + b + " equals " + result);
     }
