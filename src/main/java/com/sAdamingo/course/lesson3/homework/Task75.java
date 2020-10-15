@@ -4,27 +4,31 @@ public class Task75 {
     public static void main(String[] args) {
         String s1 = getFirstString();
         String s2 = getSecondString();
-        boolean areEqualOdd = getTrueBoolean();
-        boolean areEqualEven = getTrueBoolean();
-        isHalfEven(s1, s2, areEqualOdd, areEqualEven);
+        printIfAreEqual(s1, s2);
     }
 
-    private static void isHalfEven(String s1, String s2, boolean areEqualOdd, boolean areEqualEven) {
-        for (int i = 1; i < (s1.length() < s2.length() ? s1.length() : s2.length()); i = i + 2) {
-            boolean areEqualEven2 = areEqualOdd;
-            if (s1.charAt(i - 1) != s2.charAt(i - 1) && areEqualEven2) {
-                areEqualEven2 = false;
-            }
-            areEqualOdd = areEqualEven2;
-            boolean areEqualEven1 = areEqualEven;
-            if (s1.charAt(i) != s2.charAt(i) && areEqualEven1) {
-                areEqualEven1 = false;
-            }
-            areEqualEven = areEqualEven1;
+    private static void printIfAreEqual(String s1, String s2) {
+        if (isHalfEven(s1, s2)) {
+            System.out.println("Half are even!");
         }
-        if (areEqualEven || areEqualOdd) {
-            System.out.println("Half is equal!");
+    }
+
+    private static boolean isHalfEven(String s1, String s2) {
+        boolean areEqualOdd = true;
+        boolean areEqualEven = true;
+        for (int i = 1; i < (Math.min(s1.length(), s2.length())); i = i + 2) {
+            areEqualOdd = isEqual(s1, s2, areEqualOdd, i - 1);
+            areEqualEven = isEqual(s1, s2, areEqualEven, i);
         }
+        return areEqualEven || areEqualOdd;
+    }
+
+    private static boolean isEqual(String s1, String s2, boolean areEqualEven, int i) {
+        boolean areEqualEven1 = areEqualEven;
+        if (s1.charAt(i) != s2.charAt(i) && areEqualEven1) {
+            areEqualEven1 = false;
+        }
+        return areEqualEven1;
     }
 
     private static String getFirstString() {
@@ -33,10 +37,6 @@ public class Task75 {
 
     private static String getSecondString() {
         return "KxOwBqOdJg";
-    }
-
-    private static boolean getTrueBoolean() {
-        return true;
     }
 
 }
