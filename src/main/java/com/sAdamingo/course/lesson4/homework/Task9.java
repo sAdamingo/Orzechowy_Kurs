@@ -7,8 +7,7 @@ public class Task9 {
     public static void main(String[] args) {
         String[] stringArray = getStringArray(10);
         List<String> stringList = getStringList(4);
-        boolean haveSameElements = haveSameElements(stringArray, stringList);
-        printComparisonResults(haveSameElements);
+        printComparisonResults(haveSameElements(stringArray, stringList));
     }
 
     private static void printComparisonResults(boolean haveSameElements) {
