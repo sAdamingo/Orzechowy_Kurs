@@ -15,14 +15,12 @@ public class Task9 {
     }
 
     private static boolean haveSameElements(String[] stringArray, List<String> stringList) {
-        boolean haveSameElements = true;
         for (int i = 0; i < Math.min(stringArray.length, stringList.size()); i++) {
             if (!stringArray[i].equals(stringList.get(i))) {
-                haveSameElements = false;
-                break;
+                return false;
             }
         }
-        return haveSameElements;
+        return true;
     }
 
     private static List<String> getStringList(int stringListSize) {
