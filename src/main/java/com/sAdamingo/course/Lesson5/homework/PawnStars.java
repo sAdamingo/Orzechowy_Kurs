@@ -14,7 +14,7 @@ public class PawnStars {
             reply("You tried to trick me you cheeky bastard!");
         } else {
             int age = pesel.checkAge();
-            String answer = getAnswer(skn, age);
+            String answer = getAnswer(age);
             reply(answer);
             if (answer.equals("So, you are " + age + " years old. What are you selling?")) {
                 reply(sellItem(skn));
@@ -26,7 +26,7 @@ public class PawnStars {
         System.out.println(answer);
     }
 
-    private static String getAnswer(Scanner skn, int age) {
+    private static String getAnswer(int age) {
         if (age >= AGE_LIMIT && age < 110) {
             return "So, you are " + age + " years old. What are you selling?";
         } else if (age < 0) {
