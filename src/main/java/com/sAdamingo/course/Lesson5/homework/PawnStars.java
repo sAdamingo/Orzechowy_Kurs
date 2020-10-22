@@ -11,24 +11,40 @@ public class PawnStars {
         Scanner skn = new Scanner(System.in);
         Pesel pesel = new Pesel(skn.nextLine());
         if (!pesel.checkPesel()) {
-            System.out.println("You tried to trick me you cheeky bastard!");
+            reply("You tried to trick me you cheeky bastard!");
         } else {
             int age = pesel.checkAge();
-            if (age >= AGE_LIMIT && age < 110) {
-                System.out.println("So, you are " + age + " years old. What are you selling?");
-                String Item = skn.nextLine();
-                if (BlackList.FORBIDDEN_ITEMS.contains(Item)) {
-                    System.out.println("Sorry, we don't deal with this stuff");
-                } else {
-                    System.out.println("We can give you $" + Item.length() * 0.45 + " for it, take it or leave it");
-                }
-            } else if (age < 0) {
-                System.out.println("You came from future or what? Get out od here!");
-            } else if (age > 110) {
-                System.out.println("You're so old that I better call the newspaper!");
-            } else {
-                System.out.println("Come back in " + (AGE_LIMIT - age) + " years!");
+            String answer = getAnswer(skn, age);
+            reply(answer);
+            if (answer.equals("So, you are " + age + " years old. What are you selling?")) {
+                reply(sellItem(skn));
             }
+        }
+    }
+
+    private static void reply(String answer) {
+        System.out.println(answer);
+    }
+
+    private static String getAnswer(Scanner skn, int age) {
+        if (age >= AGE_LIMIT && age < 110) {
+            return "So, you are " + age + " years old. What are you selling?";
+        } else if (age < 0) {
+            return "You came from future or what? Get out od here!";
+        } else if (age > 110) {
+            return "You're so old that I better call the newspaper!";
+        } else {
+            return "Come back in " + (AGE_LIMIT - age) + " years!";
+        }
+    }
+
+    private static String sellItem(Scanner skn) {
+        String Item = skn.nextLine();
+        if (BlackList.FORBIDDEN_ITEMS.contains(Item)) {
+            return "Sorry, we don't deal with this stuff";
+        } else {
+            return "We can give you $" + Item.length() * 0.45
+                    + " for it, take it or leave it";
         }
     }
 

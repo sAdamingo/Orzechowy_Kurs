@@ -3,12 +3,11 @@ package com.sAdamingo.course.Lesson5.homework;
 import java.util.Calendar;
 
 public class Pesel {
-    public static final int[] CONTROL_MULTIPLIERS = new int[]{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
-    public static final int PESEL_LENGTH = 11;
-    public static final int AGE_LIMIT = 18;
-    public static String pesel;
+    private static final int[] CONTROL_MULTIPLIERS = new int[]{1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
+    private static final int PESEL_LENGTH = 11;
+    private static String pesel;
 
-    public Pesel(String pesel) {
+    protected Pesel(String pesel) {
         this.pesel = pesel;
     }
 
@@ -29,12 +28,7 @@ public class Pesel {
             controlSum = 10 - (controlSum % 10);
             isControlSumOk = controlSum == Integer.parseInt(String.valueOf(pesel.charAt(pesel.length() - 1)));
         }
-
-        if (peselLengthOk && isControlSumOk) {
-            return true;
-        } else {
-            return false;
-        }
+        return peselLengthOk && isControlSumOk;
     }
 
     protected int checkAge() {
