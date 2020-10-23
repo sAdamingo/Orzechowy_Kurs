@@ -4,9 +4,11 @@ import java.util.Scanner;
 
 public class PawnStars {
 
-    static final int AGE_LIMIT = 18;
-
     public static void main(String[] args) {
+        if (args.length == 0) {
+            return;
+        }
+        final int AGE_LIMIT = Integer.parseInt(args[0]);
         welcomeToPawnStars();
         Scanner skn = new Scanner(System.in);
         Pesel pesel = new Pesel(skn.nextLine());
@@ -14,7 +16,7 @@ public class PawnStars {
             reply("You tried to trick me you cheeky bastard!");
         } else {
             int age = pesel.checkAge();
-            String answer = getAnswer(age);
+            String answer = getAnswer(age, AGE_LIMIT);
             reply(answer);
             if (answer.equals("So, you are " + age + " years old. What are you selling?")) {
                 reply(sellItem(skn));
@@ -26,7 +28,7 @@ public class PawnStars {
         System.out.println(answer);
     }
 
-    private static String getAnswer(int age) {
+    private static String getAnswer(int age, int AGE_LIMIT) {
         if (age >= AGE_LIMIT && age < 110) {
             return "So, you are " + age + " years old. What are you selling?";
         } else if (age < 0) {

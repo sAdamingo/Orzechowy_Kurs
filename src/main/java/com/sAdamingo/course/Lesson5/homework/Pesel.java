@@ -47,7 +47,3 @@ public class Pesel {
         return age;
     }
 }
-
-
-
-
