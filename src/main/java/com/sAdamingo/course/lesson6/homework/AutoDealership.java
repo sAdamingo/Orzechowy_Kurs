@@ -67,5 +67,4 @@ public class AutoDealership {
         System.out.println("You had " + i + " clients this month and sold " + carsSold + " cars.");
         return profit;
     }
-    
 }

@@ -32,6 +32,4 @@ public class SalesSimulator {
         System.out.println();
         System.out.println("Total profit for simulated period is: " + Math.round(profit * Constants.PROFIT_PERCENTAGE) + " $.");
     }
-
-
 }

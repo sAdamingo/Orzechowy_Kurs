@@ -21,7 +21,7 @@ public class Car {
         this.price = carPriceMin +
                 randomGen.nextInt(carPriceMax - carPriceMin);
     }
-    
+
     public void sell() {
         this.sold = true;
     }
@@ -33,6 +33,4 @@ public class Car {
     public void deprecatePrice() {
         this.price -= Constants.DEPRECIATION;
     }
-
-
 }
