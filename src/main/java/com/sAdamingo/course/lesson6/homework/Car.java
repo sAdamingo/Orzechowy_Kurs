@@ -4,11 +4,16 @@ import java.util.Random;
 
 public class Car {
     private int price;
-
+    private String type;
     private boolean sold;
+
+    public String getType() {
+        return type;
+    }
 
     public Car(int carPriceMin, int carPriceMax) {
         setPrice(carPriceMin, carPriceMax);
+        setType();
         this.sold = false;
     }
 
@@ -16,7 +21,12 @@ public class Car {
         return price;
     }
 
-    public void setPrice(int carPriceMin, int carPriceMax) {
+    private void setType() {
+        Random randomGen = new Random();
+        this.type = Constants.VEHICLE_TYPES[randomGen.nextInt(Constants.VEHICLE_TYPES.length)];
+    }
+
+    private void setPrice(int carPriceMin, int carPriceMax) {
         Random randomGen = new Random();
         this.price = carPriceMin +
                 randomGen.nextInt(carPriceMax - carPriceMin);
@@ -31,6 +41,6 @@ public class Car {
     }
 
     public void deprecatePrice() {
-        this.price -= Constants.DEPRECIATION;
+        this.price -= 500;
     }
 }

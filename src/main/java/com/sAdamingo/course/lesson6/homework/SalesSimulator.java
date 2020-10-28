@@ -8,28 +8,44 @@ import java.util.List;
 public class SalesSimulator {
     public static void main(String[] args) {
         LocalDate current = LocalDate.now();
-
         List<Car> cars = new ArrayList<>();
-        AutoDealership stelmachowozy = new AutoDealership(Constants.CAPACITY,
-                Constants.CAR_PRICE_MIN, Constants.CAR_PRICE_MAX,
-                Constants.MAX_CLIENTS_PER_MONTH, Constants.CLIENT_BUDGET_MIN,
-                Constants.CLIENT_BUDGET_MAX, Constants.DEPRECIATION, cars);
-        autoDealershipSimulator(stelmachowozy, current);
+        List<Client> customers = new ArrayList<>();
+        AutoDealership stelmachowozy = new AutoDealership(20,
+                15000, 25000,
+                20, 13000,
+                22000, 500, cars, customers);
+        autoDealershipSimulator(stelmachowozy, current, 10);
+
+        cars.clear();
+        customers.clear();
+        AutoDealership dealerAutoFiat = new AutoDealership(60,
+                15000, 20000,
+                80, 130000,
+                190000, 2500, cars, customers);
+        autoDealershipSimulator(dealerAutoFiat, current, 24);
+
+        cars.clear();
+        customers.clear();
+        AutoDealership zlomnikSzrot = new AutoDealership(6000,
+                1500, 6000,
+                7000, 3000,
+                8000, 100, cars, customers);
+        autoDealershipSimulator(zlomnikSzrot, current, 24);
     }
 
-    private static void autoDealershipSimulator(AutoDealership stelmachowozy, LocalDate current) {
-
-        int[] monthlyProfit = new int[Constants.SIMULATION_TIME_IN_MONTHS];
+    private static void autoDealershipSimulator(AutoDealership stelmachowozy, LocalDate current, int simulationTimeInMonths) {
+        int[] monthlyProfit = new int[simulationTimeInMonths];
         int profit = 0;
-        for (int i = 0; i < Constants.SIMULATION_TIME_IN_MONTHS; i++) {
+        for (int i = 0; i < simulationTimeInMonths; i++) {
             stelmachowozy.carSupply();
             monthlyProfit[i] = stelmachowozy.randomClientGenerator();
             System.out.println("In " + current.getMonth() + " you have sold cars for : "
-                    + monthlyProfit[i] + " $ with net profit of " + Math.round(monthlyProfit[i] * Constants.PROFIT_PERCENTAGE) + " $.");
+                    + monthlyProfit[i] + " $ with net profit of " + Math.round(monthlyProfit[i] * 0.23) + " $.");
             current = current.plusMonths(1);
             profit += monthlyProfit[i];
         }
         System.out.println();
-        System.out.println("Total profit for simulated period is: " + Math.round(profit * Constants.PROFIT_PERCENTAGE) + " $.");
+        System.out.println("Total profit for simulated period is: " + Math.round(profit * 0.23) + " $.");
+        System.out.println();
     }
 }
