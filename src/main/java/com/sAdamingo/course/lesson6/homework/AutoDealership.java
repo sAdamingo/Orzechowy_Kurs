@@ -41,12 +41,22 @@ public class AutoDealership {
         }
     }
 
-    int randomClientGenerator() {
+
+    void clientListUpdate() {
+        for (int k = customers.size() - 1; k >= 0; k--) {
+            if (customers.get(k).isCarBought()
+                    || customers.get(k).getMonthsWaiting() >= 4) {
+                customers.remove(k);
+            }
+        }
+    }
+
+    public int getMonthlyProfit() {
         Random randGen = new Random();
         int i = 0;
         int profit = 0;
         int carsSold = 0;
-        int customersSizeAtInit = customers.size();
+        int customersSizeAtInit = 0;
         int iterations = customersSizeAtInit + randGen.nextInt(maxClientsPerMonth);
 
         for (; i < iterations; i++) {
@@ -74,13 +84,8 @@ public class AutoDealership {
                 customers.get(i).addMonthOfWaiting();
             }
         }
-        System.out.println("You had " + i + " clients this month and sold " + carsSold + " cars.");
-        for (int k = customers.size() - 1; k >= 0; k--) {
-            if (customers.get(k).isCarBought()
-                    || customers.get(k).getMonthsWaiting() >= 4) {
-                customers.remove(k);
-            }
-        }
+        System.out.println("You had " + i + " clients this month and sold "
+                + carsSold + " cars.");
         return profit;
     }
 }
