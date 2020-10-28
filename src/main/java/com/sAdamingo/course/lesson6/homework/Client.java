@@ -3,7 +3,7 @@ package com.sAdamingo.course.lesson6.homework;
 import java.util.Random;
 
 public class Client {
-    private int budget;
+    private final int budget;
     private String preferredCarType;
     private boolean carBought = false;
     private int monthsWaiting = 0;

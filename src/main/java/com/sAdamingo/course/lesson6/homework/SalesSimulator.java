@@ -27,8 +27,8 @@ public class SalesSimulator {
         cars.clear();
         customers.clear();
         AutoDealership zlomnikSzrot = new AutoDealership(2,
-                10, 6000,
-                2, 30000,
+                1000, 6000,
+                12, 30000,
                 80000, 100, cars, customers);
         autoDealershipSimulator(zlomnikSzrot, current, 24);
     }
@@ -38,6 +38,7 @@ public class SalesSimulator {
         int profit = 0;
         for (int i = 0; i < simulationTimeInMonths; i++) {
             stelmachowozy.carSupply();
+            System.out.println();
             monthlyProfit[i] = stelmachowozy.randomClientGenerator();
             System.out.println("In " + current.getMonth() + " you have sold cars with net profit of " + monthlyProfit[i] + " $.");
             current = current.plusMonths(1);

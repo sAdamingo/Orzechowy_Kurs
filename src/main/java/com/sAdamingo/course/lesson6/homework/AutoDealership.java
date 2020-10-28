@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Random;
 
 public class AutoDealership {
-    private int capacity;
-    private int carPriceMin;
-    private int carPriceMax;
-    private int maxClientsPerMonth;
-    private int clientBudgetMin;
-    private int clientBudgetMax;
-    private int depreciation;
+    private final int capacity;
+    private final int carPriceMin;
+    private final int carPriceMax;
+    private final int maxClientsPerMonth;
+    private final int clientBudgetMin;
+    private final int clientBudgetMax;
+    private final int depreciation;
     private List<Car> cars;
     private List<Client> customers;
 
@@ -34,7 +34,7 @@ public class AutoDealership {
                 cars.add(new Car(carPriceMin, carPriceMax));
             } else if (cars.get(i).isSold()) {
                 cars.remove(i);
-                cars.add(new Car(carPriceMin, carPriceMax));
+                cars.add(0, new Car(carPriceMin, carPriceMax));
             } else {
                 cars.get(i).deprecatePrice(depreciation);
             }
@@ -49,20 +49,18 @@ public class AutoDealership {
         int customersSizeAtInit = customers.size();
         int iterations = customersSizeAtInit + randGen.nextInt(maxClientsPerMonth);
 
-
         for (; i < iterations; i++) {
             if (i >= customersSizeAtInit) {
                 customers.add(new Client(clientBudgetMin,
                         clientBudgetMax));
             }
-            Client customer = customers.get(i);
             int bestDealPrice = 0;
             int indexOfBestDeal = -1;
 
             for (int j = 0; j < cars.size(); j++) {
-                if (customer.getBudget() >= cars.get(j).getPrice() && cars.get(j).getPrice() > bestDealPrice
+                if (customers.get(i).getBudget() >= cars.get(j).getPrice() && cars.get(j).getPrice() > bestDealPrice
                         && !cars.get(j).isSold()
-                        && customer.getPreferredCarType().equals(cars.get(j).getType())) {
+                        && customers.get(i).getPreferredCarType().equals(cars.get(j).getType())) {
                     indexOfBestDeal = j;
                     bestDealPrice = cars.get(j).getPrice();
                 }
