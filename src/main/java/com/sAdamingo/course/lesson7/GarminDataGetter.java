@@ -14,7 +14,7 @@ public class GarminDataGetter {
         LoginConnector loginConnector = new LoginConnector();
         GarminSession garminSession = null;
         try {
-            garminSession = loginConnector.login("ad.stelmach@gmail.com", "13Stan12");
+            garminSession = loginConnector.login("ad.stelmach@gmail.com", "asdf");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
