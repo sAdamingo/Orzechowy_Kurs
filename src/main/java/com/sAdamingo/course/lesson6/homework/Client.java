@@ -4,24 +4,8 @@ import java.util.Random;
 
 public class Client {
     private int budget;
-
-    public void buyCar() {
-        this.carBought = true;
-    }
-
     private String preferredCarType;
-
-    public boolean isCarBought() {
-        return carBought;
-    }
-
     private boolean carBought = false;
-
-
-    public int getMonthsWaiting() {
-        return monthsWaiting;
-    }
-
     private int monthsWaiting = 0;
 
     public Client(int clientBudgetMin, int clientBudgetMax) {
@@ -31,8 +15,9 @@ public class Client {
         setPreferredCarType();
     }
 
-    void addMonthOfWaiting() {
-        this.monthsWaiting++;
+    private void setPreferredCarType() {
+        Random randGen = new Random();
+        this.preferredCarType = Constants.VEHICLE_TYPES[randGen.nextInt(Constants.VEHICLE_TYPES.length)];
     }
 
     public String getPreferredCarType() {
@@ -43,8 +28,19 @@ public class Client {
         return budget;
     }
 
-    private void setPreferredCarType() {
-        Random randGen = new Random();
-        this.preferredCarType = Constants.VEHICLE_TYPES[randGen.nextInt(Constants.VEHICLE_TYPES.length)];
+    public int getMonthsWaiting() {
+        return monthsWaiting;
+    }
+
+    public void buyCar() {
+        this.carBought = true;
+    }
+
+    public boolean isCarBought() {
+        return carBought;
+    }
+
+    void addMonthOfWaiting() {
+        this.monthsWaiting++;
     }
 }

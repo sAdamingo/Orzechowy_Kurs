@@ -8,18 +8,6 @@ public class Car {
     private String type;
     private boolean sold;
 
-    public int getProfit() {
-        return profit;
-    }
-
-    public void setProfit() {
-        this.profit = (int) Math.round(price * 0.1);
-    }
-
-    public String getType() {
-        return type;
-    }
-
     public Car(int carPriceMin, int carPriceMax) {
         setPrice(carPriceMin, carPriceMax);
         setType();
@@ -27,10 +15,22 @@ public class Car {
         this.sold = false;
     }
 
+    public int getProfit() {
+        return profit;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public int getPrice() {
         return price;
     }
 
+    public void setProfit() {
+        this.profit = (int) Math.round(price * 0.1);
+    }
+    
     private void setType() {
         Random randomGen = new Random();
         this.type = Constants.VEHICLE_TYPES[randomGen.nextInt(Constants.VEHICLE_TYPES.length)];
