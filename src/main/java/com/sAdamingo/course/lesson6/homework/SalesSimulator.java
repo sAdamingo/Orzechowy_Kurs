@@ -39,8 +39,7 @@ public class SalesSimulator {
         for (int i = 0; i < simulationTimeInMonths; i++) {
             stelmachowozy.carSupply();
             monthlyProfit[i] = stelmachowozy.randomClientGenerator();
-            System.out.println("In " + current.getMonth() + " you have sold cars for : "
-                    + monthlyProfit[i] + " $ with net profit of " + Math.round(monthlyProfit[i] * 0.23) + " $.");
+            System.out.println("In " + current.getMonth() + " you have sold cars with net profit of " + monthlyProfit[i] + " $.");
             current = current.plusMonths(1);
             profit += monthlyProfit[i];
         }

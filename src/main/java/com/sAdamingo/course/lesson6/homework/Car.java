@@ -4,8 +4,17 @@ import java.util.Random;
 
 public class Car {
     private int price;
+    private int profit;
     private String type;
     private boolean sold;
+
+    public int getProfit() {
+        return profit;
+    }
+
+    public void setProfit() {
+        this.profit = (int) Math.round(price * 0.1);
+    }
 
     public String getType() {
         return type;
@@ -14,6 +23,7 @@ public class Car {
     public Car(int carPriceMin, int carPriceMax) {
         setPrice(carPriceMin, carPriceMax);
         setType();
+        setProfit();
         this.sold = false;
     }
 
@@ -40,7 +50,8 @@ public class Car {
         return sold;
     }
 
-    public void deprecatePrice() {
-        this.price -= 500;
+    public void deprecatePrice(int depreciation) {
+        this.price -= depreciation;
+        this.profit -= depreciation;
     }
 }

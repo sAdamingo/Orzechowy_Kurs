@@ -36,7 +36,7 @@ public class AutoDealership {
                 cars.remove(i);
                 cars.add(new Car(carPriceMin, carPriceMax));
             } else {
-                cars.get(i).deprecatePrice();
+                cars.get(i).deprecatePrice(depreciation);
             }
         }
     }
@@ -69,12 +69,13 @@ public class AutoDealership {
                 }
             }
             if (indexOfBestDeal != -1) {
-                profit += bestDealPrice;
+                profit += cars.get(indexOfBestDeal).getProfit();
                 cars.get(indexOfBestDeal).sell();
                 carsSold++;
                 customers.get(i).buyCar();
             } else {
                 customers.get(i).addMonthOfWaiting();
+
             }
         }
         System.out.println("You had " + i + " clients this month and sold " + carsSold + " cars.");
