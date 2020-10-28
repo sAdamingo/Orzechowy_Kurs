@@ -10,10 +10,10 @@ public class SalesSimulator {
         LocalDate current = LocalDate.now();
         List<Car> cars = new ArrayList<>();
         List<Client> customers = new ArrayList<>();
-        AutoDealership stelmachowozy = new AutoDealership(20,
+        AutoDealership stelmachowozy = new AutoDealership(10,
                 15000, 25000,
-                20, 13000,
-                22000, 500, cars, customers);
+                10, 26000,
+                29000, 500, cars, customers);
         autoDealershipSimulator(stelmachowozy, current, 10);
 
         cars.clear();
@@ -26,10 +26,10 @@ public class SalesSimulator {
 
         cars.clear();
         customers.clear();
-        AutoDealership zlomnikSzrot = new AutoDealership(6000,
-                1500, 6000,
-                7000, 3000,
-                8000, 100, cars, customers);
+        AutoDealership zlomnikSzrot = new AutoDealership(2,
+                10, 6000,
+                2, 30000,
+                80000, 100, cars, customers);
         autoDealershipSimulator(zlomnikSzrot, current, 24);
     }
 

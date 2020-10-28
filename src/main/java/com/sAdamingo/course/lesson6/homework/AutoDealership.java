@@ -49,19 +49,18 @@ public class AutoDealership {
         int customersSizeAtInit = customers.size();
         int iterations = customersSizeAtInit + randGen.nextInt(maxClientsPerMonth);
 
+
         for (; i < iterations; i++) {
             if (i >= customersSizeAtInit) {
                 customers.add(new Client(clientBudgetMin,
                         clientBudgetMax));
             }
             Client customer = customers.get(i);
-            int carsPrizes;
-            int bestDealPrice = customer.getBudget();
+            int bestDealPrice = 0;
             int indexOfBestDeal = -1;
 
             for (int j = 0; j < cars.size(); j++) {
-                carsPrizes = customer.getBudget() - cars.get(j).getPrice();
-                if (carsPrizes >= 0 && carsPrizes < bestDealPrice
+                if (customer.getBudget() >= cars.get(j).getPrice() && cars.get(j).getPrice() > bestDealPrice
                         && !cars.get(j).isSold()
                         && customer.getPreferredCarType().equals(cars.get(j).getType())) {
                     indexOfBestDeal = j;
@@ -75,7 +74,6 @@ public class AutoDealership {
                 customers.get(i).buyCar();
             } else {
                 customers.get(i).addMonthOfWaiting();
-
             }
         }
         System.out.println("You had " + i + " clients this month and sold " + carsSold + " cars.");

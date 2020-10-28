@@ -30,7 +30,7 @@ public class Car {
     public void setProfit() {
         this.profit = (int) Math.round(price * 0.1);
     }
-    
+
     private void setType() {
         Random randomGen = new Random();
         this.type = Constants.VEHICLE_TYPES[randomGen.nextInt(Constants.VEHICLE_TYPES.length)];
