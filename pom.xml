@@ -8,12 +8,6 @@
     <artifactId>Kurs Orzecha</artifactId>
     <version>1.0-SNAPSHOT</version>
     <dependencies>
-        <dependency>
-            <groupId>com.github.kacirekj</groupId>
-            <artifactId>garmin-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-
     </dependencies>
     <properties>
         <maven.compiler.source>15</maven.compiler.source>

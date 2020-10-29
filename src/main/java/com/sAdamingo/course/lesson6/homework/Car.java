@@ -51,7 +51,7 @@ public class Car {
     }
 
     public void deprecatePrice(int depreciation) {
-        this.price -= profit * depreciation / 100;
-        this.profit -= profit * depreciation / 100;
+        this.price -= price * depreciation / 100;
+        this.profit -= price * depreciation / 100;
     }
 }
