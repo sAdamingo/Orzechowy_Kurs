@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class GarminDataGetter {
 
     public static void main(String[] args) {
-
         Scanner skn = new Scanner(System.in);
         System.out.println("Please enter your e-mail: ");
         String email = skn.nextLine();
@@ -20,7 +19,6 @@ public class GarminDataGetter {
         String password = skn.nextLine();
         LoginConnector loginConnector = new LoginConnector();
         GarminSession garminSession = null;
-
 
         try {
             garminSession = loginConnector.login(email, password);
