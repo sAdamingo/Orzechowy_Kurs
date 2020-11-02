@@ -4,7 +4,6 @@ import java.util.*;
 
 public class Lottery {
     private static final int MAX_NUMBER = 49;
-
     private Map<String, Set<Integer>> players = new HashMap<>();
 
     public Lottery(int numberOfPlayers) {
@@ -28,7 +27,6 @@ public class Lottery {
         for (Map.Entry<String, Set<Integer>> entry : players.entrySet()) {
             if (entry.getValue().equals(winningNumber)) {
                 keys.add(entry.getKey());
-
             }
         }
         if (keys.size() != 0) {
