@@ -4,40 +4,40 @@ import java.util.*;
 
 public class Lottery {
     private static final int MAX_NUMBER = 49;
-    private Map<String, Set<Integer>> players = new HashMap<>();
+    private Map<Set<Integer>, List<String>> players = new HashMap<>();
 
     public Lottery(int numberOfPlayers) {
+        List<String> playersWithSameType = new ArrayList<>();
+        Set<Integer> playerTypes = generateRandomNumbers();
         for (int i = 0; i < numberOfPlayers; i++) {
-            players.put(UUID.randomUUID().toString(), generateRandomNumbers());
+            if (players.containsKey(playerTypes)) {
+                players.get(playerTypes).add(UUID.randomUUID().toString());
+            } else {
+                playersWithSameType.add(UUID.randomUUID().toString());
+                players.put(generateRandomNumbers(), playersWithSameType);
+            }
         }
     }
 
     private static Set<Integer> generateRandomNumbers() {
         Set<Integer> randomSet = new HashSet<>();
         Random rnd = new Random();
-        while (randomSet.size() < 6) {
+        while (randomSet.size() < 4) {
             randomSet.add(1 + rnd.nextInt(MAX_NUMBER));
         }
         return randomSet;
     }
 
-    public Set<String> getWinnerId() {
+    public List<String> getWinnerId() {
         Set<Integer> winningNumber = generateRandomNumbers();
-        Set<String> keys = new HashSet<>();
-        for (Map.Entry<String, Set<Integer>> entry : players.entrySet()) {
-            if (entry.getValue().equals(winningNumber)) {
-                keys.add(entry.getKey());
-            }
+        if (players.containsKey(winningNumber)) {
+            return players.get(winningNumber);
         }
-        if (keys.size() != 0) {
-            return keys;
-        } else {
-            return null;
-        }
+        return null;
     }
 
     public static void main(String[] args) {
-        Lottery Lotto = new Lottery(2000000);
+        Lottery Lotto = new Lottery(200000);
         System.out.println(Lotto.getWinnerId());
     }
 }
