@@ -3,8 +3,7 @@ package com.sAdamingo.course.lesson6.homework;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CarTest {
 
@@ -31,16 +30,15 @@ class CarTest {
     }
 
     @Test
-    @DisplayName("What if car price max is smaller than car price min ?")
-    void maxIsSmallerThenMin() {
-        int carPriceMin = 30;
-        int carPriceMax = 10;
-
-        Car auto = new Car(carPriceMin, carPriceMax);
-        boolean isInRange = (auto.getPrice() >= carPriceMin && auto.getPrice() <= carPriceMax);
-        assertTrue(isInRange);
+    @DisplayName("Test if budget returns exception when min > max")
+    void shouldThrowExceptionWhenMinGreaterThanMax() {
+        int budgetMin = 120;
+        int budgetMax = 100;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(budgetMin, budgetMax);
+        });
     }
-    
+
     @Test
     @DisplayName("Check if Depreciation works correct")
     void checkDepreciation() {

@@ -3,16 +3,28 @@ package com.sAdamingo.course.lesson6.homework;
 import java.util.Random;
 
 public class Client {
-    private final int budget;
+
+    private int budget;
     private String preferredCarType;
     private boolean carBought = false;
     private int monthsWaiting = 0;
 
     public Client(int clientBudgetMin, int clientBudgetMax) {
         Random randomGen = new Random();
-        this.budget = clientBudgetMin +
-                randomGen.nextInt(clientBudgetMax - clientBudgetMin);
+        setBudget(clientBudgetMin, clientBudgetMax);
         setPreferredCarType();
+    }
+
+    public void setBudget(int clientBudgetMin, int clientBudgetMax) {
+        if (clientBudgetMax < clientBudgetMin) {
+            throw new IllegalArgumentException("carPriceMax have to be bigger than carPriceMin!");
+        } else if (clientBudgetMax == clientBudgetMin) {
+            this.budget = clientBudgetMin;
+        } else {
+            Random randomGen = new Random();
+            this.budget = clientBudgetMin +
+                    randomGen.nextInt(clientBudgetMax - clientBudgetMin);
+        }
     }
 
     private void setPreferredCarType() {
