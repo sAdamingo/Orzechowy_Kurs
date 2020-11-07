@@ -37,9 +37,15 @@ public class Car {
     }
 
     private void setPrice(int carPriceMin, int carPriceMax) {
-        Random randomGen = new Random();
-        this.price = carPriceMin +
-                randomGen.nextInt(carPriceMax - carPriceMin);
+        if (carPriceMax < carPriceMin) {
+            throw new IllegalArgumentException("carPriceMax have to be bigger than carPriceMin!");
+        } else if (carPriceMax == carPriceMin) {
+            this.price = carPriceMin;
+        } else {
+            Random randomGen = new Random();
+            this.price = carPriceMin +
+                    randomGen.nextInt(carPriceMax - carPriceMin);
+        }
     }
 
     public void sell() {
@@ -51,7 +57,7 @@ public class Car {
     }
 
     public void deprecatePrice(int depreciation) {
-        this.price -= price * depreciation / 100;
         this.profit -= price * depreciation / 100;
+        this.price -= price * depreciation / 100;
     }
 }
