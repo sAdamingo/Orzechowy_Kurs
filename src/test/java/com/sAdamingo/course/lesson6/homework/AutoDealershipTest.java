@@ -57,7 +57,7 @@ class AutoDealershipTest {
         CarFactory carFactory = Mockito.mock(CarFactory.class);
         Mockito.when(carFactory
                 .create(500, 1500, 10))
-                .thenReturn(new Car(1000, 100, "Van"));
+                .thenAnswer(invocationOnMock -> new Car(1000, 100, "Van"));
         int capacity = 100;
         int depreciationPercent = 10;
         AutoDealership salon = AutoDealershipBuilder.anAutoDealership()
@@ -104,10 +104,10 @@ class AutoDealershipTest {
     void shouldSellAllCarsFromAutodealership() {
         CarFactory carFactory = Mockito.mock(CarFactory.class);
         Mockito.when(carFactory.create(500, 1500, 10))
-                .thenReturn(new Car(1000, 100, "Van"));
+                .thenAnswer(s -> new Car(1000, 100, "Van"));
         ClientFactory clientFactory = Mockito.mock(ClientFactory.class);
         Mockito.when(clientFactory.create(500, 1500))
-                .thenReturn(new Client(1000, "Van",
+                .thenAnswer(s -> new Client(1000, "Van",
                         false, 0));
 
         AutoDealership rmFilipowicz = AutoDealershipBuilder.anAutoDealership()
