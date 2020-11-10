@@ -14,7 +14,6 @@ class AutoDealershipTest {
     @DisplayName("For empty cars list should return list with Car objects, size capacity")
     void shouldReturnCapacitySizedListOfCars() {
         List<Car> cars = new ArrayList<>();
-        List<Client> customers = new ArrayList<>();
         int capacity = 20;
         AutoDealership toyotaSalon = new AutoDealership(new CarFactory(), new ClientFactory(), capacity, 20, 30, 20, 15, 25, 5);
 
