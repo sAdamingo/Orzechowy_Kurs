@@ -1,35 +1,51 @@
 package com.sAdamingo.course.lesson6.homework;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SalesSimulator {
     public static void main(String[] args) {
         LocalDate current = LocalDate.now();
-        List<Car> cars = new ArrayList<>();
-        List<Client> customers = new ArrayList<>();
-        AutoDealership stelmachowozy = new AutoDealership(10,
-                15000, 25000,
-                10, 26000,
-                29000, 25, cars, customers);
+
+        AutoDealership stelmachowozy = AutoDealershipBuilder.anAutoDealership()
+                .withCarPriceMax(30)
+                .withCarPriceMin(20)
+                .withCapacity(20)
+                .withClientBudgetMin(15)
+                .withClientBudgetMax(25)
+                .withDepreciation(10)
+                .withMaxClientsPerMonth(15)
+                .withCarFactory(new CarFactory())
+                .withClientFactory(new ClientFactory())
+                .build();
         autoDealershipSimulator(stelmachowozy, current, 10);
 
-        cars.clear();
-        customers.clear();
-        AutoDealership dealerAutoFiat = new AutoDealership(60,
-                15000, 20000,
-                80, 130000,
-                190000, 50, cars, customers);
+        AutoDealership dealerAutoFiat = AutoDealershipBuilder.anAutoDealership()
+                .withCarPriceMax(20000)
+                .withCarPriceMin(15000)
+                .withCapacity(60)
+                .withClientBudgetMin(130000)
+                .withClientBudgetMax(190000)
+                .withDepreciation(50)
+                .withMaxClientsPerMonth(80)
+                .withCarFactory(new CarFactory())
+                .withClientFactory(new ClientFactory())
+                .build();
+
         autoDealershipSimulator(dealerAutoFiat, current, 24);
 
-        cars.clear();
-        customers.clear();
-        AutoDealership zlomnikSzrot = new AutoDealership(2,
-                1000, 6000,
-                120, 30000,
-                80000, 10, cars, customers);
+        AutoDealership zlomnikSzrot = AutoDealershipBuilder.anAutoDealership()
+                .withCarPriceMax(6000)
+                .withCarPriceMin(1000)
+                .withCapacity(2)
+                .withClientBudgetMin(30000)
+                .withClientBudgetMax(80000)
+                .withDepreciation(10)
+                .withMaxClientsPerMonth(120)
+                .withCarFactory(new CarFactory())
+                .withClientFactory(new ClientFactory())
+                .build();
+
         autoDealershipSimulator(zlomnikSzrot, current, 24);
     }
 

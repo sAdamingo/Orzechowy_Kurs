@@ -7,12 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ClientTest {
 
+    private ClientFactory clientFactory;
+
     @Test
     @DisplayName("Test if budget is set ok when budget max = budget min")
     void checkBugetSetterWhenEquals() {
         int budgetMin = 100;
         int budgetMax = 100;
-        Client customer = new Client(budgetMin, budgetMax);
+        Client customer = clientFactory.create(budgetMin, budgetMax);
         assertEquals(100, customer.getBudget());
     }
 
@@ -22,7 +24,7 @@ class ClientTest {
         int budgetMin = 120;
         int budgetMax = 100;
         assertThrows(IllegalArgumentException.class, () -> {
-            new Client(budgetMin, budgetMax);
+            clientFactory.create(budgetMin, budgetMax);
         });
     }
 
@@ -31,7 +33,7 @@ class ClientTest {
     void budgetShouldBeInRange() {
         int budgetMin = 80;
         int budgetMax = 100;
-        Client adamSkladowy = new Client(budgetMin, budgetMax);
+        Client adamSkladowy = clientFactory.create(budgetMin, budgetMax);
         boolean isBudgetInRange = (adamSkladowy.getBudget() >= budgetMin
                 && adamSkladowy.getBudget() <= budgetMax);
         assertTrue(isBudgetInRange);

@@ -13,7 +13,7 @@ class CarTest {
         int carPriceMin = 20;
         int carPriceMax = 20;
 
-        Car auto = new Car(carPriceMin, carPriceMax);
+        Car auto = new Car(carPriceMin, carPriceMax, "Van");
         boolean isInRange = (auto.getPrice() >= carPriceMin && auto.getPrice() <= carPriceMax);
         assertTrue(isInRange);
     }
@@ -24,7 +24,7 @@ class CarTest {
         int carPriceMin = 20;
         int carPriceMax = 20;
 
-        Car auto = new Car(carPriceMin, carPriceMax);
+        Car auto = new Car(carPriceMin, carPriceMax, "Van");
         boolean isInRange = (auto.getPrice() >= carPriceMin && auto.getPrice() <= carPriceMax);
         assertTrue(isInRange);
     }
@@ -35,14 +35,14 @@ class CarTest {
         int budgetMin = 120;
         int budgetMax = 100;
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(budgetMin, budgetMax);
+            new Car(budgetMin, budgetMax, "Van");
         });
     }
 
     @Test
-    @DisplayName("Check if Depreciation works correct")
+    @DisplayName("Should depreciate car profit")
     void checkDepreciation() {
-        Car escort = new Car(5, 10);
+        Car escort = new Car(5, 10, "Van");
         int priceBefore = escort.getPrice();
         int depreciationPercent = 10;
         escort.deprecatePrice(depreciationPercent);
@@ -54,8 +54,9 @@ class CarTest {
 
     @Test
     @DisplayName("Check if profit depreciation works correct")
+        // To z poprzednim w jednym
     void checkProfitDepreciation() {
-        Car escort = new Car(5, 10);
+        Car escort = new Car(5, 10, "Van");
         int profitBefore = escort.getProfit();
         int priceBefore = escort.getPrice();
         int depreciationPercent = 100;
@@ -69,7 +70,7 @@ class CarTest {
     @Test
     @DisplayName("Check when depreciation percent is eqal to 0")
     void checkIfDepreciationIsZero() {
-        Car escort = new Car(5, 10);
+        Car escort = new Car(5, 10, "Van");
         int profitBefore = escort.getProfit();
         int priceBefore = escort.getPrice();
         int depreciationPercent = 0;
