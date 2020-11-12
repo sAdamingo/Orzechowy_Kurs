@@ -1,45 +1,84 @@
 package com.sAdamingo.course.lesson6.homework;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CarTest {
 
-
     @Test
-    void testGetProfit() {
+    @DisplayName("Profit is in dedicated range??")
+    void shouldGetProfit() {
+        int carPriceMin = 20;
+        int carPriceMax = 20;
+
+        Car auto = new Car(carPriceMin, carPriceMax, "Van");
+        boolean isInRange = (auto.getPrice() >= carPriceMin && auto.getPrice() <= carPriceMax);
+        assertTrue(isInRange);
     }
 
     @Test
-    void testGetType() {
+    @DisplayName("What if car price min and max are equal?")
+    void carPriceMinAndMaxAreEqual() {
+        int carPriceMin = 20;
+        int carPriceMax = 20;
+
+        Car auto = new Car(carPriceMin, carPriceMax, "Van");
+        boolean isInRange = (auto.getPrice() >= carPriceMin && auto.getPrice() <= carPriceMax);
+        assertTrue(isInRange);
     }
 
     @Test
-    void testGetPrice() {
+    @DisplayName("Test if budget returns exception when min > max")
+    void shouldThrowExceptionWhenMinGreaterThanMax() {
+        int budgetMin = 120;
+        int budgetMax = 100;
+        assertThrows(IllegalArgumentException.class, () ->
+                new Car(budgetMin, budgetMax, "Van")
+        );
     }
 
     @Test
-    void testSetProfit() {
-        //given
-        int carPriceMin = 40;
-        int carPriceMax = 30;
-        //when
-        Car multipla = new Car(carPriceMin, carPriceMax);
-        //then
-        boolean expectedValue = (multipla.getPrice() > carPriceMin && multipla.getPrice() < carPriceMax);
-        assertTrue(expectedValue);
+    @DisplayName("Should depreciate car profit")
+    void checkDepreciation() {
+        Car escort = new Car(5, 10, "Van");
+        int priceBefore = escort.getPrice();
+        int depreciationPercent = 10;
+        escort.deprecatePrice(depreciationPercent);
+        int priceAfter = escort.getPrice();
+        int depreciationValue = priceBefore - priceAfter;
+        assertEquals(depreciationValue,
+                priceBefore * depreciationPercent / 100);
     }
 
     @Test
-    void testSell() {
+    @DisplayName("Check if profit depreciation works correct")
+        // To z poprzednim w jednym
+    void checkProfitDepreciation() {
+        Car escort = new Car(5, 10, "Van");
+        int profitBefore = escort.getProfit();
+        int priceBefore = escort.getPrice();
+        int depreciationPercent = 100;
+        escort.deprecatePrice(depreciationPercent);
+        int profitAfter = escort.getProfit();
+        int depreciationValue = profitBefore - (priceBefore * depreciationPercent / 100);
+        assertEquals(profitAfter,
+                depreciationValue);
     }
 
     @Test
-    void testIsSold() {
-    }
+    @DisplayName("Check when depreciation percent is eqal to 0")
+    void checkIfDepreciationIsZero() {
+        Car escort = new Car(5, 10, "Van");
+        int profitBefore = escort.getProfit();
+        int priceBefore = escort.getPrice();
+        int depreciationPercent = 0;
+        escort.deprecatePrice(depreciationPercent);
+        int profitAfter = escort.getProfit();
+        int priceAfter = escort.getPrice();
 
-    @Test
-    void testDeprecatePrice() {
+        assertEquals(profitBefore, profitAfter);
+        assertEquals(priceBefore, priceAfter);
     }
 }
