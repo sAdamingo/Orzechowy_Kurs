@@ -35,7 +35,7 @@ class CarTest {
         int budgetMin = 120;
         int budgetMax = 100;
         assertThrows(IllegalArgumentException.class, () ->
-                new Car(budgetMin, budgetMax, "Van");
+                new Car(budgetMin, budgetMax, "Van")
         );
     }
 
