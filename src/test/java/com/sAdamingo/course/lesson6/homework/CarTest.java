@@ -34,9 +34,9 @@ class CarTest {
     void shouldThrowExceptionWhenMinGreaterThanMax() {
         int budgetMin = 120;
         int budgetMax = 100;
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Car(budgetMin, budgetMax, "Van");
-        });
+        assertThrows(IllegalArgumentException.class, () ->
+                new Car(budgetMin, budgetMax, "Van");
+        );
     }
 
     @Test
