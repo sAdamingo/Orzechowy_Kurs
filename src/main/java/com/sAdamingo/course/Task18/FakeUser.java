@@ -1,88 +1,53 @@
 package com.sAdamingo.course.Task18;
 
 import com.github.javafaker.Faker;
-import org.apache.commons.math3.random.RandomDataGenerator;
-import org.json.simple.JSONObject;
 
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
 public class FakeUser {
-    private String id;
+
     private String name;
     private String password;
-    private Long phoneNumber;
-
-
-    public FakeUser(String id) {
-        this.id = id;
-        Faker names = new Faker();
-        this.name = names.name().firstName();
-        this.password = UUID.randomUUID().toString();
-        Random rnd = new Random();
-        this.phoneNumber = new RandomDataGenerator().nextLong(600000000, 699999999);
-    }
-
-    public FakeUser(JSONObject fakeUser) {
-        this.id = (String) fakeUser.get("id");
-        this.name = (String) fakeUser.get("userName");
-        this.password = (String) fakeUser.get("password");
-        this.phoneNumber = (Long) fakeUser.get("phone number");
-    }
+    private int phoneNumber;
 
     public String getName() {
         return name;
     }
 
-    public String printUserData() {
-        return "id: " + id + "\n" + "name: " + name + "\n" + "password: " + password + "\n" + "phone number: " + phoneNumber;
+    public String getPassword() {
+        return password;
     }
 
-    public String toJSONString() {
-        StringBuffer sb = new StringBuffer();
-
-        sb.append("{");
-
-        sb.append(JSONObject.escape("id"));
-        sb.append(":");
-        sb.append("\"" + JSONObject.escape(id) + "\"");
-
-        sb.append(JSONObject.escape("userName"));
-        sb.append(":");
-        sb.append("\"" + JSONObject.escape(name) + "\"");
-
-        sb.append(",");
-
-        sb.append(JSONObject.escape("password"));
-        sb.append(":");
-        sb.append("\"" + JSONObject.escape(password) + "\"");
-
-        sb.append(",");
-
-        sb.append(JSONObject.escape("phone number"));
-        sb.append(":");
-        sb.append(phoneNumber);
-
-        sb.append("}");
-
-        return sb.toString();
+    public int getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public JSONObject toJSONObject() {
-        JSONObject user = new JSONObject();
-        user.put("id", id);
-        user.put("userName", name);
-        user.put("password", password);
-        user.put("phone number", phoneNumber);
-        return user;
+    public FakeUser(String name, String password, int phoneNumber) {
+        this.name = name;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
     }
 
-    public static void main(String[] args) {
-
-        System.out.println(new FakeUser("1").toJSONString());
+    public FakeUser() {
+        Faker names = new Faker();
+        this.name = names.name().firstName();
+        this.password = UUID.randomUUID().toString();
+        this.phoneNumber = 600000000 + new Random().nextInt(99_999_999);
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FakeUser fakeUser = (FakeUser) o;
+        return phoneNumber == fakeUser.phoneNumber
+                && Objects.equals(name, fakeUser.name)
+                && Objects.equals(password, fakeUser.password);
     }
 }
