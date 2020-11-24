@@ -4,10 +4,10 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        
+        String path = args[0];
         DataBaseOperator<FakeUser> baza = null;
         try {
-            baza = new DataBaseOperator<>("C:\\Users\\adam.stelmach\\Documents\\prywatne\\java\\Kurs Orzecha\\src\\main\\java\\com\\sAdamingo\\course\\Task18\\testowy.txt");
+            baza = new DataBaseOperator<>(path);
         } catch (IOException e) {
             e.printStackTrace();
         }

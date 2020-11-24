@@ -2,14 +2,12 @@ package com.sAdamingo.course.Task18;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Stream;
 
 public class DataBaseOperator<T> {
@@ -74,10 +72,5 @@ public class DataBaseOperator<T> {
                 .filter(line -> getObjectFromLine(line).equals(object))
                 .map(this::getIdFromLine)
                 .findAny().orElse(null);
-    }
-
-    public static void main(String[] args) throws ExecutionException, IOException, ParseException {
-        System.out.println("Welcome to DataBase Operator!");
-
     }
 }

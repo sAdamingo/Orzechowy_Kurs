@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public class FakeUser {
 
-    private String name;
-    private String password;
-    private int phoneNumber;
+    private final String name;
+    private final String password;
+    private final int phoneNumber;
 
     public String getName() {
         return name;
