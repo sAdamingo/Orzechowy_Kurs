@@ -50,4 +50,12 @@ public class FakeUser {
                 && Objects.equals(name, fakeUser.name)
                 && Objects.equals(password, fakeUser.password);
     }
+
+    @Override
+    public String toString() {
+        return "FakeUser{" +
+                "userName=" + name +
+                ", password='" + password + "', phone number='" + phoneNumber + '\'' +
+                '}';
+    }
 }

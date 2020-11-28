@@ -1,6 +1,5 @@
 package com.sAdamingo.course.Task18;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -10,15 +9,17 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.stream.Stream;
 
-public class DataBaseOperator<T> {
+public class DataBaseOperator<T> implements DataBase<T> {
 
-    private final String fileName;
+    private String fileName;
     private long lastId;
     ObjectMapper objectMapper = new ObjectMapper();
+    Class<T> clazz;
 
     public DataBaseOperator(String fileName) throws IOException {
         this.fileName = fileName;
         lastId = getLines().mapToLong(this::getIdFromLine).max().orElse(0);
+        this.clazz = clazz;
     }
 
     private long getIdFromLine(String line) {
@@ -41,8 +42,7 @@ public class DataBaseOperator<T> {
     private T getObjectFromLine(String line) {
         try {
             return objectMapper.readValue(
-                    getContentFromLine(line), new TypeReference<T>() {
-                    });
+                    getContentFromLine(line), clazz);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,4 +73,8 @@ public class DataBaseOperator<T> {
                 .map(this::getIdFromLine)
                 .findAny().orElse(null);
     }
+
+/*    public void deleteObjectByID(long id) {
+        getLines().
+    }*/
 }
