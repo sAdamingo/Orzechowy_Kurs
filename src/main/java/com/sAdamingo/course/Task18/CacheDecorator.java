@@ -11,17 +11,22 @@ import java.util.concurrent.TimeUnit;
 public class CacheDecorator<T> implements DataBase {
     private DataBaseOperator<T> weakOperator;
     private
-    LoadingCache<Long, T> fakeUserCache =
-            CacheBuilder.newBuilder()
-                    .maximumSize(1000)                             // maximum 100 records can be cached
-                    .expireAfterAccess(30, TimeUnit.MINUTES)// cache will expire after 30 minutes of access
-                    .build(new CacheLoader<Long, T>() {  // build the cacheloader
+    LoadingCache<Long, T> fakeUserCache;
 
-                        @Override
-                        public T load(Long userID) throws Exception {
-                            return weakOperator.getByJsonContainsWord("Giovani");
-                        }
-                    });
+
+    public CacheDecorator(DataBaseOperator<T> weakOperatorr) {
+        this.weakOperator = weakOperatorr;
+        this.fakeUserCache = CacheBuilder.newBuilder()
+                .maximumSize(20)                             // maximum 100 records can be cached
+                .expireAfterAccess(30, TimeUnit.MINUTES)// cache will expire after 30 minutes of access
+                .build(new CacheLoader<Long, T>() {  // build the cacheloader
+
+                    @Override
+                    public T load(Long userID) throws Exception {
+                        return weakOperator.findById(userID);
+                    }
+                });
+    }
 
     @Override
 

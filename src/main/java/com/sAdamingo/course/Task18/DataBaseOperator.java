@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class DataBaseOperator<T> implements DataBase<T> {
@@ -19,7 +20,6 @@ public class DataBaseOperator<T> implements DataBase<T> {
     public DataBaseOperator(String fileName) throws IOException {
         this.fileName = fileName;
         lastId = getLines().mapToLong(this::getIdFromLine).max().orElse(0);
-        this.clazz = clazz;
     }
 
     private long getIdFromLine(String line) {
@@ -41,7 +41,7 @@ public class DataBaseOperator<T> implements DataBase<T> {
 
     private T getObjectFromLine(String line) {
         try {
-            return objectMapper.readValue(
+            return (T) objectMapper.readValue(
                     getContentFromLine(line), clazz);
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,10 +53,16 @@ public class DataBaseOperator<T> implements DataBase<T> {
         return line.substring(line.indexOf(':') + 1);
     }
 
-    public T getByJsonContainsWord(String word) throws IOException {
-        return getLines()
+    public T getByJsonContainsWord(String word) throws IOException, IllegalArgumentException {
+        //noinspection OptionalGetWithoutIsPresent
+        Optional<T> any = getLines()
                 .filter(line -> getContentFromLine(line).toLowerCase().contains(word.toLowerCase()))
-                .map(this::getObjectFromLine).findAny().get();
+                .map(this::getObjectFromLine).findAny();
+        if (any.isPresent()) {
+            return any.get();
+        } else {
+            throw new IllegalArgumentException("Object not Found");
+        }
     }
 
     private Stream<String> getLines() throws IOException {
@@ -73,8 +79,4 @@ public class DataBaseOperator<T> implements DataBase<T> {
                 .map(this::getIdFromLine)
                 .findAny().orElse(null);
     }
-
-/*    public void deleteObjectByID(long id) {
-        getLines().
-    }*/
 }
