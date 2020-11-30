@@ -1,4 +1,4 @@
-package com.sAdamingo.course;
+package com.sAdamingo.course.Task23;
 
 import javax.swing.*;
 import java.awt.*;
