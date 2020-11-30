@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CacheDecorator<T> implements DataBase {
     private DataBaseOperator<T> weakOperator;
-    private
-    LoadingCache<Long, T> fakeUserCache;
+    private LoadingCache<Long, T> fakeUserCache;
 
 
     public CacheDecorator(DataBaseOperator<T> weakOperatorr) {
@@ -29,7 +28,6 @@ public class CacheDecorator<T> implements DataBase {
     }
 
     @Override
-
     public T findById(long id) throws IOException, ExecutionException {
         return fakeUserCache.get(id);
     }
