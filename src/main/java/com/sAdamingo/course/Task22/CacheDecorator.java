@@ -29,7 +29,6 @@ public class CacheDecorator<T> implements DataBase {
     }
 
     @Override
-
     public T findById(long id) throws IOException, ExecutionException {
         return fakeUserCache.get(id);
     }

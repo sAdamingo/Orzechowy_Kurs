@@ -11,8 +11,8 @@ public class Main {
         String path = "C:\\Users\\adam.stelmach\\Documents\\prywatne\\java\\Kurs Orzecha\\src\\main\\java\\com\\sAdamingo\\course\\Task22\\testowy.txt";
         DataBase<FakeUser> fakeUserDataBaseOperator = new DataBaseOperator<>(path, new FakeUser());
         DataBase<FakeUser> fakeUserCacheDecorator = new CacheDecorator<FakeUser>((DataBaseOperator<FakeUser>) fakeUserDataBaseOperator);
+        //Testing basic operator
         long now = System.currentTimeMillis();
-
         for (int i = 0; i < 50; i++) {
             try {
                 System.out.println(fakeUserDataBaseOperator.getByJsonContainsWord(new Faker().name().firstName()));
@@ -22,6 +22,7 @@ public class Main {
             System.out.println(fakeUserDataBaseOperator.findById(new Random().nextInt(199) + 1));
         }
         System.out.println(System.currentTimeMillis() - now);
+        //Testing operator with cache
         now = System.currentTimeMillis();
         for (int i = 0; i < 50; i++) {
             try {
