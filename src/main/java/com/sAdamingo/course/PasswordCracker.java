@@ -2,6 +2,7 @@ package com.sAdamingo.course;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PasswordCracker {
     public static long START_TIME;
@@ -28,10 +29,10 @@ public class PasswordCracker {
                     currentCore++;
                     totalOperationsNumberr -= averageOperationsPerThread;
                 } else if (currentCore == cores) {
-                    subsets[currentCore - 1][0] = subsets[currentCore - 2][1];
+                    subsets[currentCore - 1][0] = subsets[currentCore - 2][1] + 1;
                     subsets[currentCore - 1][1] = MAX_CHAR_NUMBER;
                 } else {
-                    subsets[currentCore - 1][0] = subsets[currentCore - 2][1];
+                    subsets[currentCore - 1][0] = subsets[currentCore - 2][1] + 1;
                     subsets[currentCore - 1][1] = i;
                     currentCore++;
                     totalOperationsNumberr -= averageOperationsPerThread;
@@ -45,11 +46,11 @@ public class PasswordCracker {
         START_TIME = System.currentTimeMillis();
         int cores = Runtime.getRuntime().availableProcessors();
         int[][] subsets = new PasswordCracker().threadDivider();
+        AtomicBoolean aB = new AtomicBoolean(false);
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
-
         for (int i = 0; i < cores; i++) {
-            executorService.submit(new Cracker(subsets[i][0], subsets[i][1], "adi"));
+            executorService.submit(new Cracker(subsets[i][0], subsets[i][1], "s!;@n", aB, ALPHABET));
         }
-        executorService.shutdown();
+        executorService.shutdownNow();
     }
 }

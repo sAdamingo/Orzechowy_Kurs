@@ -1,16 +1,20 @@
 package com.sAdamingo.course;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Cracker implements Runnable {
-    private int start;
-    private int end;
-    public static char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789@#&!()^=+/:.;,".toCharArray();
-    private static boolean FOUND = false;
-    private String passwordToCrack;
+    private final int start;
+    private final int end;
+    public char[] ALPHABET;
+    public AtomicBoolean FOUND;
+    private final String passwordToCrack;
     private String password;
 
-    public Cracker(int start, int end, String passwordToCrack) {
+
+    public Cracker(int start, int end, String passwordToCrack, AtomicBoolean aB, char[] alphabet) {
+        this.ALPHABET = alphabet;
+        this.FOUND = aB;
         this.start = start;
         this.end = end;
         this.passwordToCrack = passwordToCrack;
@@ -22,12 +26,12 @@ public class Cracker implements Runnable {
             // System.out.println(s);
             if (s.equals(passwordToCrack)) {
                 password = s;
-                FOUND = true;
+                FOUND.set(true);
                 return;
             }
             return;
         }
-        for (int i = 0; i < ALPHABET.length && !FOUND; i++) {
+        for (int i = 0; i < ALPHABET.length && !FOUND.get(); i++) {
             String t = s;
             t += ALPHABET[i];
             generator(t, max_char);
@@ -36,21 +40,27 @@ public class Cracker implements Runnable {
     }
 
     public void CrackInRange(int start, int stop) {
-        while (!FOUND) {
+        boolean stopLoop = false;
+        while (!FOUND.get() || !stopLoop) {
             for (int i = start; i <= stop; i++) {
                 generator("", i);
             }
+            stopLoop = !stopLoop;
         }
-        return;
     }
 
     @Override
     public void run() {
         CrackInRange(start, end);
 
-        if (FOUND) {
+        if (FOUND.get()) {
             long duration = System.currentTimeMillis() - PasswordCracker.START_TIME;
-            System.out.println("Password cracked in " + TimeUnit.MILLISECONDS.toSeconds(duration) + "." + TimeUnit.MILLISECONDS.toMillis(duration) + " sec. Password was = " + password);
+            if (password == null) {
+                System.out.println("Password cracked by other thread!");
+            } else {
+                System.out.println("Password cracked in " + TimeUnit.MILLISECONDS.toSeconds(duration) + "." + TimeUnit.MILLISECONDS.toMillis(duration) + " sec. Password was = " + password);
+
+            }
         } else {
             System.out.println("Password not cracked for subset [" + start + ", " + end + "]");
         }
