@@ -5,9 +5,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PasswordCracker {
-    public static long START_TIME;
     public static char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789@#&!()^=+/:.;,".toCharArray();
-    static public int MAX_CHAR_NUMBER = 8;
+    static public int MAX_CHAR_NUMBER;
 
     public int[][] threadDivider() {
         int cores = Runtime.getRuntime().availableProcessors();
@@ -43,13 +42,14 @@ public class PasswordCracker {
     }
 
     public static void main(String[] args) {
-        START_TIME = System.currentTimeMillis();
+        MAX_CHAR_NUMBER = Integer.parseInt(args[0]);
+        long startTime = System.currentTimeMillis();
         int cores = Runtime.getRuntime().availableProcessors();
         int[][] subsets = new PasswordCracker().threadDivider();
         AtomicBoolean aB = new AtomicBoolean(false);
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
         for (int i = 0; i < cores; i++) {
-            executorService.submit(new Cracker(subsets[i][0], subsets[i][1], "s!;@n", aB, ALPHABET));
+            executorService.submit(new Cracker(subsets[i][0], subsets[i][1], "s!;@n", aB, ALPHABET, startTime));
         }
         executorService.shutdownNow();
     }
