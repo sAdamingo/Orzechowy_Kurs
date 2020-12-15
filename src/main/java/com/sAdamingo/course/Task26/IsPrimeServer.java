@@ -11,32 +11,25 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MyRestEndpoint {
-
-    private static final String CONTEXT = "/motorcycles";
-    private static final String CONTEXTPRIME = "/isPrime";
+public class IsPrimeServer {
+    private static final String CONTEXT = "/isPrime";
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
         server.createContext(CONTEXT, new MyHttpHandler());
-        server.createContext(CONTEXTPRIME, new MyHttpHandler());
         Executor threadPoolExecutor = Executors.newFixedThreadPool(10);
         server.setExecutor(threadPoolExecutor);
         server.start();
     }
 
-    private static class MyHttpHandler implements HttpHandler {
+    public static class MyHttpHandler implements HttpHandler {
 
-        Database<Motorcycle> database = new HashMapDatabase();
         ObjectMapper objectMapper = new ObjectMapper();
 
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
             if ("GET".equals(httpExchange.getRequestMethod())) {
                 handleGet(httpExchange);
-            }
-            if ("POST".equals(httpExchange.getRequestMethod())) {
-                handlePost(httpExchange);
             }
         }
 
@@ -55,40 +48,39 @@ public class MyRestEndpoint {
 
         private void handleGet(HttpExchange httpExchange) throws IOException {
             String uri = httpExchange.getRequestURI().toString();
-            String id = uri.length() > CONTEXT.length() ? uri.substring((CONTEXT + "/").length()) : null;
+            String number = uri.length() > CONTEXT.length() ? uri.substring((CONTEXT + "/").length()) : null;
             String json;
-            if (id == null) {
-                json = objectMapper.writeValueAsString(database.getAll());
+            if (number == null || !isNumeric(number)) {
+                handleResponse(httpExchange, null, 404);
             } else {
-                Motorcycle motorcycle = database.get(id);
-                if (motorcycle == null) {
-                    handleResponse(httpExchange, null, 404);
-                    return;
-                }
-                json = objectMapper.writeValueAsString(database.get(id));
+                json = "{\"number\":" + Integer.parseInt(number) + ",\"isPrime\":" + isPrime(Integer.parseInt(number)) + "}";
+                handleResponse(httpExchange, json, 200);
             }
-            handleResponse(httpExchange, json, 200);
         }
+    }
 
-        private void handlePost(HttpExchange httpExchange) throws IOException {
-            if (!CONTEXT.equals(httpExchange.getRequestURI().toString())) {
-                handleResponse(httpExchange, null, 400);
-                return;
-            }
-            Motorcycle motorcycle;
-            try {
-                motorcycle = objectMapper.readValue(httpExchange.getRequestBody(), Motorcycle.class);
-            } catch (IOException e) {
-                handleResponse(httpExchange, "{\"message\":\"" + e.getMessage() + "\"}", 500);
-                return;
-            }
-            try {
-                database.add(motorcycle);
-            } catch (Exception e) {
-                handleResponse(httpExchange, "{\"message\":\"" + e.getMessage() + "\"}", 500);
-                return;
-            }
-            handleResponse(httpExchange, null, 201);
+    public static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
         }
+        try {
+            int d = Integer.parseInt(strNum);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isPrime(int a) {
+        boolean flag = true;
+        int temp;
+        for (int i = 2; i <= a / 2; i++) {
+            temp = a % i;
+            if (temp == 0) {
+                flag = false;
+                return flag;
+            }
+        }
+        return flag;
     }
 }
