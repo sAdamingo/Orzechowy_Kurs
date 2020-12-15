@@ -1,4 +1,4 @@
-package com.sAdamingo.course.Task25;
+package com.sAdamingo.course.Task24;
 
 import java.sql.Timestamp;
 

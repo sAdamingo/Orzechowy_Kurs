@@ -1,4 +1,4 @@
-package com.sAdamingo.course;
+package com.sAdamingo.course.Task25;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;

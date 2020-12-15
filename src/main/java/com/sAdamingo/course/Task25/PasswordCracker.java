@@ -1,4 +1,4 @@
-package com.sAdamingo.course;
+package com.sAdamingo.course.Task25;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
