@@ -1,6 +1,5 @@
 package com.sAdamingo.course.Task26;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -23,8 +22,6 @@ public class IsPrimeServer {
     }
 
     public static class MyHttpHandler implements HttpHandler {
-
-        ObjectMapper objectMapper = new ObjectMapper();
 
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
@@ -51,7 +48,7 @@ public class IsPrimeServer {
             String number = uri.length() > CONTEXT.length() ? uri.substring((CONTEXT + "/").length()) : null;
             String json;
             if (number == null || !isNumeric(number)) {
-                handleResponse(httpExchange, null, 404);
+                handleResponse(httpExchange, null, 400);
             } else {
                 json = "{\"number\":" + Integer.parseInt(number) + ",\"isPrime\":" + isPrime(Integer.parseInt(number)) + "}";
                 handleResponse(httpExchange, json, 200);
@@ -72,15 +69,13 @@ public class IsPrimeServer {
     }
 
     public static boolean isPrime(int a) {
-        boolean flag = true;
         int temp;
         for (int i = 2; i <= a / 2; i++) {
             temp = a % i;
             if (temp == 0) {
-                flag = false;
-                return flag;
+                return false;
             }
         }
-        return flag;
+        return true;
     }
 }
