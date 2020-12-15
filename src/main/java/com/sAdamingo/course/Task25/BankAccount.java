@@ -1,4 +1,4 @@
-package com.sAdamingo.course.Task24;
+package com.sAdamingo.course.Task25;
 
 import java.util.LinkedList;
 import java.util.List;
