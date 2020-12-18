@@ -11,7 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class IsPrimeServer {
-    private static final String CONTEXT = "/isPrime";
+    private static final String CONTEXT = "/isprime";
 
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
@@ -47,7 +47,7 @@ public class IsPrimeServer {
             String uri = httpExchange.getRequestURI().toString();
             String number = uri.length() > CONTEXT.length() ? uri.substring((CONTEXT + "/").length()) : null;
             String json;
-            if (number == null || !isNumeric(number)) {
+            if (!isNumeric(number)) {
                 handleResponse(httpExchange, null, 400);
             } else {
                 json = "{\"number\":" + Integer.parseInt(number) + ",\"isPrime\":" + isPrime(Integer.parseInt(number)) + "}";
