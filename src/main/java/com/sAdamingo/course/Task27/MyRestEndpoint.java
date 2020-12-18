@@ -125,6 +125,7 @@ public class MyRestEndpoint {
                 if (database.get(id) == null) {
                     handleResponse(httpExchange, "{\"message\":\"" + "Motorcycle with this id do not exist" + "\"}", 404);
                 } else {
+                    database.delete(id);
                     handleResponse(httpExchange, null, 200);
                 }
             }
