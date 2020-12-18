@@ -39,8 +39,6 @@
             <version>3.6.28</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
