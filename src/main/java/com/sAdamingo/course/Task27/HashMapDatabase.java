@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class HashMapDatabase implements Database<Motorcycle> {
 
-    private Map<String, Motorcycle> map = new HashMap<>();
+    private final Map<String, Motorcycle> map = new HashMap<>();
 
     public HashMapDatabase() {
         Motorcycle motorcycle = new Motorcycle("005", "Ducati", "Monster", 50);
@@ -52,6 +52,4 @@ public class HashMapDatabase implements Database<Motorcycle> {
         }
         map.put(obj.getId(), obj);
     }
-
-
 }

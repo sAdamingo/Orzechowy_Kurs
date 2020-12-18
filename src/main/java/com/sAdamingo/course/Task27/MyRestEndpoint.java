@@ -40,7 +40,7 @@ public class MyRestEndpoint {
                 handlePut(httpExchange);
             }
             if ("DELETE".equals(httpExchange.getRequestMethod())) {
-                handleDELETE(httpExchange);
+                handleDelete(httpExchange);
             }
         }
 
@@ -116,7 +116,7 @@ public class MyRestEndpoint {
             handleResponse(httpExchange, null, 201);
         }
 
-        private void handleDELETE(HttpExchange httpExchange) throws IOException {
+        private void handleDelete(HttpExchange httpExchange) throws IOException {
             String uri = httpExchange.getRequestURI().toString();
             String id = uri.length() > CONTEXT.length() ? uri.substring((CONTEXT + "/").length()) : null;
             if (id == null) {
