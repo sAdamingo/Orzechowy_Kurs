@@ -9,15 +9,12 @@ public class PostgreSQLAdapter {
     public static void main(String[] args) {
         HashMapDatabase dataBase = new HashMapDatabase();
         Connection c = null;
-
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/books",
                             "postgres", "adamek");
             c.setAutoCommit(false);
-
-
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
@@ -27,11 +24,11 @@ public class PostgreSQLAdapter {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
         int scenario = 0;
-        while (scenario != 6) {
+        while (scenario != 8) {
             try {
                 switch (scenario) {
                     case 0 -> {
-                        System.out.println("What do you want to do?\n[1] Show my DB\n[2]Add new element\n[3]Update element\n[4]Delete element\n[5]EXIT PROGRAM");
+                        System.out.println("What do you want to do?\n[1] Show my DB\n[2]Add new element\n[3]Update id by given id\n[4]Update author by given id\n[5]Update title by given id\n[6]Delete element\n[7]EXIT PROGRAM");
                         scenario = Integer.parseInt(reader.readLine());
                     }
                     case 1 -> {
@@ -43,16 +40,24 @@ public class PostgreSQLAdapter {
                         scenario = 0;
                     }
                     case 3 -> {
-                        updateByID(c, dataBase);
+                        updateIDByID(c, dataBase);
                         scenario = 0;
                     }
                     case 4 -> {
-                        deleteFromDB(c, dataBase);
+                        updateAuthorById(c, dataBase);
                         scenario = 0;
                     }
                     case 5 -> {
+                        updateTitleById(c, dataBase);
+                        scenario = 0;
+                    }
+                    case 6 -> {
+                        deleteFromDB(c, dataBase);
+                        scenario = 0;
+                    }
+                    case 7 -> {
                         c.close();
-                        scenario = 6;
+                        scenario = 8;
                     }
                 }
             } catch (IOException | SQLException e) {
@@ -67,15 +72,16 @@ public class PostgreSQLAdapter {
         System.out.println("Which position do you want to delete? Enter user_id");
         int id = Integer.parseInt(reader.readLine());
         dataBase.delete(id);
-        Statement stmt = c.createStatement();
-        String sql = "DELETE from my_book_shelf where user_id = " + id + ";";
-        stmt.executeUpdate(sql);
+        String sql = "DELETE from my_book_shelf where user_id = ?;";
+        PreparedStatement pstmt = c.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        pstmt.executeUpdate();
         c.commit();
     }
 
     public static void showDB(Connection c, HashMapDatabase dataBase) throws SQLException {
         Statement stmt = c.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM my_book_shelf ORDER BY user_id AS1C;");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM my_book_shelf ORDER BY user_id ASC;");
         while (rs.next()) {
             int id = rs.getInt("user_id");
             String author = rs.getString("author");
@@ -88,7 +94,6 @@ public class PostgreSQLAdapter {
         }
         rs.close();
         stmt.close();
-
     }
 
     public static void addToDB(Connection c, HashMapDatabase dataBase) throws SQLException, IOException {
@@ -102,46 +107,61 @@ public class PostgreSQLAdapter {
         String title = reader.readLine();
         Book bookToAdd = new Book(id, author, title);
         dataBase.add(bookToAdd);
-        Statement stmt = c.createStatement();
-        stmt.executeUpdate("INSERT INTO my_book_shelf(user_id, author, title, created_on) " +
-                "VALUES(" + id + ", '" + author + "', '" + title + "', '" + bookToAdd.getCreatedOn().toString() + "');");
-        stmt.close();
+        String sql = "INSERT INTO my_book_shelf(user_id, author, title, created_on) " +
+                "VALUES(?, ?, ?, ?);";
+        PreparedStatement pstmt = c.prepareStatement(sql);
+        pstmt.setInt(1, id);
+        pstmt.setString(2, author);
+        pstmt.setString(3, title);
+        pstmt.setTimestamp(4, bookToAdd.getCreatedOn());
+        pstmt.executeUpdate();
+        c.commit();
     }
 
-    public static void updateByID(Connection c, HashMapDatabase dataBase) throws SQLException, IOException {
+    public static void updateIDByID(Connection c, HashMapDatabase dataBase) throws SQLException, IOException {
         BufferedReader reader =
                 new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Which position do you want to update? Enter user_id");
         int id = Integer.parseInt(reader.readLine());
-        System.out.println("Which position do you want to update?\n[0] user_id\n[1] author\n[2] title.");
-        int scenario = Integer.parseInt(reader.readLine());
-        Statement stmt;
-        String sql;
-        switch (scenario) {
-            case 0:
-                System.out.println("Enter new id");
-                int newId = Integer.parseInt(reader.readLine());
-                dataBase.get(id).setId(newId);
-                stmt = c.createStatement();
-                sql = "UPDATE my_book_shelf set user_id = " + newId + " where user_id=" + id + ";";
-                stmt.executeUpdate(sql);
-                c.commit();
-            case 1:
-                System.out.println("Enter new author");
-                String author = reader.readLine();
-                dataBase.get(id).setAuthor(author);
-                stmt = c.createStatement();
-                sql = "UPDATE my_book_shelf set author = '" + author + "' where user_id=" + id + ";";
-                stmt.executeUpdate(sql);
-                c.commit();
-            case 2:
-                System.out.println("Enter new title");
-                String title = reader.readLine();
-                dataBase.get(id).setTitle(title);
-                stmt = c.createStatement();
-                sql = "UPDATE my_book_shelf set title = '" + title + "' where user_id=" + id + ";";
-                stmt.executeUpdate(sql);
-                c.commit();
-        }
+        System.out.println("Enter new id");
+        int newId = Integer.parseInt(reader.readLine());
+        dataBase.get(id).setId(newId);
+        String sql = "UPDATE my_book_shelf set user_id = ? where user_id=" + id + ";";
+        PreparedStatement pstmt = c.prepareStatement(sql);
+        pstmt.setInt(1, newId);
+        pstmt.execute();
+        c.commit();
+    }
+
+    public static void updateAuthorById(Connection c, HashMapDatabase dataBase) throws SQLException, IOException {
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Which position do you want to update? Enter user_id");
+        int id = Integer.parseInt(reader.readLine());
+        System.out.println("Enter new Author");
+        String author = reader.readLine();
+        dataBase.get(id).setAuthor(author);
+        //    sql = "UPDATE my_book_shelf set user_id = " + newId + " where user_id=" + id + ";";
+        String sql = "UPDATE my_book_shelf set author = ? where user_id=" + id + ";";
+        PreparedStatement pstmt = c.prepareStatement(sql);
+        pstmt.setString(1, author);
+        pstmt.execute();
+        c.commit();
+    }
+
+    public static void updateTitleById(Connection c, HashMapDatabase dataBase) throws SQLException, IOException {
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Which position do you want to update? Enter user_id");
+        int id = Integer.parseInt(reader.readLine());
+        System.out.println("Enter new title:");
+        String title = reader.readLine();
+        dataBase.get(id).setTitle(title);
+        //    sql = "UPDATE my_book_shelf set user_id = " + newId + " where user_id=" + id + ";";
+        String sql = "UPDATE my_book_shelf set title = ? where user_id=" + id + ";";
+        PreparedStatement pstmt = c.prepareStatement(sql);
+        pstmt.setString(1, title);
+        pstmt.execute();
+        c.commit();
     }
 }
